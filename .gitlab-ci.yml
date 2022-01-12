@@ -20,6 +20,8 @@ build:
 docker-build:
   stage: docker-build
   image: docker:latest
+  service:
+    - docker:dind
   before_script:
     - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
   script:
