@@ -21,7 +21,7 @@ docker-build:
   stage: docker-build
   image: docker:latest
   before_script:
-    - docker $CI_REGISTRY_PASSWORD |login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+    - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
   script:
     - docker build --pull -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
