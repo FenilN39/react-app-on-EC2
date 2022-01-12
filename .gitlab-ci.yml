@@ -6,7 +6,7 @@ login-to-ec2:
   stage: login
  
   script:
-
+    - sudo apt update
     - ssh -i "$LOGIN_FILE" $USER@$PASSWD 
     - echo "login successful"
 
