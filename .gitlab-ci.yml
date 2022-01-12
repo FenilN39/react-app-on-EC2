@@ -8,6 +8,7 @@ login-to-ec2:
   script:
     - apt update
     - apt-get install -y openssh-server
+    - chmod 400 $LOGIN_FILE
     - ssh -i "$LOGIN_FILE" $USER@$PASSWD "echo $(pwd)"
     - echo "login successful"
 
