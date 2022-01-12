@@ -4,11 +4,11 @@ stages:
 login-to-ec2:
   image: ubuntu:latest
   stage: login
-  before_script:
+ 
+  script:
+
     - ssh -i "$LOGIN_FILE" $USER@$PASSWD 
     - echo "login successful"
 
-  script:
     - echo "into server"
     - exit
-    
