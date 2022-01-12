@@ -37,9 +37,9 @@ deploy:
     - echo "deploying app"
   script:
     - chmod 400 $LOGIN_FILE
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$PASSWD "docker pull registry.gitlab.com/feniln39/dockercicd"
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$PASSWD "docker stop newcontainer || true && docker rm newcontainer || true"
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$PASSWD "docker run -p 80:80 -d --name newcontainer registry.gitlab.com/feniln39/dockercicd"
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$PASSWD "sudo docker pull registry.gitlab.com/feniln39/dockercicd"
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$PASSWD "sudo docker stop newcontainer || true && docker rm newcontainer || true"
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$PASSWD "sudo docker run -p 80:80 -d --name newcontainer registry.gitlab.com/feniln39/dockercicd"
 
 
 
