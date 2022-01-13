@@ -35,7 +35,7 @@ deploy:
     - echo "deploying app"
   script:
     - chmod 400 $LOGIN_KEY
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "docker login -u "$CI_REGISTRY_USER" -p "$CI_JOB_TOKEN" $CI_REGISTRY" 
+    # - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "docker login -u "$CI_REGISTRY_USER" -p "$CI_JOB_TOKEN" $CI_REGISTRY" 
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker pull registry.gitlab.com/feniln39/dockerfinal:latest"
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker stop newcontainer || true && docker rm newcontainer || true" 
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker run -p 80:80 -d --name newcontainer registry.gitlab.com/feniln39/dockerfinal:latest"
