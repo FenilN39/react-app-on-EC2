@@ -34,8 +34,8 @@ deploy:
   before_script:
     - echo "deploying app"
   script:
-    - chmod 400 $LOGIN_FILE
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$PASSWD "echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin; sudo docker pull registry.gitlab.com/feniln39/dockercicd:latest ; sudo docker stop newcontainer || true && docker rm newcontainer || true ; sudo docker run -p 80:80 -d --name newcontainer registry.gitlab.com/feniln39/dockercicd:latest"
+    - chmod 400 $LOGIN_KEY
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin; sudo docker pull registry.gitlab.com/feniln39/dockercicd:latest ; sudo docker stop newcontainer || true && docker rm newcontainer || true ; sudo docker run -p 80:80 -d --name newcontainer registry.gitlab.com/feniln39/dockercicd:latest"
   
 
 
