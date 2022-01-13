@@ -28,8 +28,9 @@
 #     - docker build --pull -t $CI_REGISTRY_IMAGE .
 #     - docker push $CI_REGISTRY_IMAGE
 #     - echo "Registry image:" $CI_REGISTRY_IMAGE
-
-
+variables:
+  DOCKER_HOST: tcp://docker:2375
+  DOCKER_DRIVER: overlay2
 deploy:
   stage: deploy
   image: linuxserver/openssh-server
