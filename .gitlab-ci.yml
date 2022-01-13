@@ -1,7 +1,6 @@
-# stages:
-#   - build
-#   - docker-build
-#   - deploy
+stages:
+  - docker-build
+  - deploy
 
 # build:
 #   stage: build
