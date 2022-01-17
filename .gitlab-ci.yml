@@ -1,5 +1,5 @@
 stages:
-  - build-build
+  - docker-build
   - push
 #   - docker-build
   - deploy
