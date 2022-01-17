@@ -32,7 +32,7 @@ stages:
 
 
 docker_build:
-  image : alpine
+  image : docker:19.03.12
   stage: build
   before_script:
     - docker login -u feniln39 -p $PERSONAL_TOKEN registry.gitlab.com/feniln39/dockerfinal 
