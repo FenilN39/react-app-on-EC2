@@ -32,9 +32,10 @@ stages:
 
 
 docker_build:
+  image : alpine
   stage: build
   before_script:
-    - echo $PERSONAL_TOKEN | docker login -u feniln39 registry.gitlab.com/feniln39/dockerfinal --password-stdin
+    - docker login -u feniln39 -p $PERSONAL_TOKEN registry.gitlab.com/feniln39/dockerfinal 
   script:
     - docker build -t registry.gitlab.com/feniln39/dockerfinal .
     - docker push registry.gitlab.com/feniln39/dockerfinal:latest
