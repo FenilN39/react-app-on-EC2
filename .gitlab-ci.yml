@@ -35,6 +35,7 @@ Build:
   stage: build
   image: docker:latest
   script:
+    - docker login registry.gitlab.com/feniln39/dockerfinal:latest -u feniln39 -p $PERSONAL_TOKEN
     # fetches the latest image (not failing if image is not found)
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     # builds the project, passing proxy variables, using OCI labels
