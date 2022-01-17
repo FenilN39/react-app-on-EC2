@@ -31,29 +31,13 @@ stages:
 #     - echo "Registry image:" $CI_REGISTRY_IMAGE
 
 
-Build:
+docker_build:
   stage: build
-  image: docker:latest
+  before_script:
+    - echo $PERSONAL_TOKEN | docker login -u feniln39 registry.gitlab.com/feniln39/dockerfinal --password-stdin
   script:
-    - docker login registry.gitlab.com/feniln39/dockerfinal:latest -u feniln39 -p $PERSONAL_TOKEN
-    # fetches the latest image (not failing if image is not found)
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    # builds the project, passing proxy variables, using OCI labels
-    # notice the cache-from, which is going to use the image we just pulled locally
-    # the built image is tagged locally with the commit SHA, and then pushed to 
-    # the GitLab registry
-    - >
-      docker build
-      --pull
-      --cache-from $CI_REGISTRY_IMAGE:latest
-      --label "org.opencontainers.image.title=$CI_PROJECT_TITLE"
-      --label "org.opencontainers.image.url=$CI_PROJECT_URL"
-      --label "org.opencontainers.image.created=$CI_JOB_STARTED_AT"
-      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
-      --label "org.opencontainers.image.version=$CI_COMMIT_REF_NAME"
-      --tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-      .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+    - docker build -t registry.gitlab.com/feniln39/dockerfinal .
+    - docker push registry.gitlab.com/feniln39/dockerfinal:latest
 
 
 Push latest:
