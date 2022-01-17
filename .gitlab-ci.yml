@@ -18,27 +18,19 @@ stages:
 #       - build
 #       - node_modules/
 
-# docker-build:
-#   stage: docker-build
-#   image: docker:19.03.12
-#   services:
-#     - docker:dind
-#   before_script:
-#     - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-#   script:
-#     - docker build --pull -t $CI_REGISTRY_IMAGE .
-#     - docker push $CI_REGISTRY_IMAGE
-#     - echo "Registry image:" $CI_REGISTRY_IMAGE
-
-
-docker_build:
-  image : docker:19.03.12
-  stage: build
+docker-build:
+  stage: docker-build
+  image: docker:19.03.12
+  services:
+    - docker:dind
   before_script:
-    - docker login -u feniln39 -p $PERSONAL_TOKEN registry.gitlab.com/feniln39/dockerfinal 
+    - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
   script:
-    - docker build -t registry.gitlab.com/feniln39/dockerfinal .
-    - docker push registry.gitlab.com/feniln39/dockerfinal:latest
+    - docker build --pull -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
+    - echo "Registry image:" $CI_REGISTRY_IMAGE
+
+
 
 
 Push latest:
