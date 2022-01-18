@@ -4,53 +4,53 @@ stages:
   - push
   - deploy
 
-build:
-  stage: build
-  image: node
-  script: 
-    - echo "Start building App"
-    - npm install
-    - npm run build
-    - echo "Build successfully!"
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - build
-      - node_modules/
+# build:
+#   stage: build
+#   image: node
+#   script: 
+#     - echo "Start building App"
+#     - npm install
+#     - npm run build
+#     - echo "Build successfully!"
+#   artifacts:
+#     expire_in: 1 hour
+#     paths:
+#       - build
+#       - node_modules/
 
-docker-build:
-  stage: docker-build
-  image: docker:19.03.12
-  services:
-    - docker:dind
-  before_script:
-    - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-  script:
-    - docker build --pull -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
-    - echo "Registry image:" $CI_REGISTRY_IMAGE
-
-
+# docker-build:
+#   stage: docker-build
+#   image: docker:19.03.12
+#   services:
+#     - docker:dind
+#   before_script:
+#     - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
+#   script:
+#     - docker build --pull -t $CI_REGISTRY_IMAGE .
+#     - docker push $CI_REGISTRY_IMAGE
+#     - echo "Registry image:" $CI_REGISTRY_IMAGE
 
 
-Push_latest:
-  variables:
-    # We are just playing with Docker here. 
-    # We do not need GitLab to clone the source code.
-    GIT_STRATEGY: none
-  stage: push
-  image: docker:latest
-  only:
-    # Only "master" should be tagged "latest"
-    - master
-  script:
-    # Because we have no guarantee that this job will be picked up by the same runner 
-    # that built the image in the previous step, we pull it again locally
-    - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
-    # Then we tag it "latest"
-    - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
-    # Annnd we push it.
-    - docker push $CI_REGISTRY_IMAGE:latest
+
+
+# Push_latest:
+#   variables:
+#     # We are just playing with Docker here. 
+#     # We do not need GitLab to clone the source code.
+#     GIT_STRATEGY: none
+#   stage: push
+#   image: docker:latest
+#   only:
+#     # Only "master" should be tagged "latest"
+#     - master
+#   script:
+#     # Because we have no guarantee that this job will be picked up by the same runner 
+#     # that built the image in the previous step, we pull it again locally
+#     - docker pull $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+#     # Then we tag it "latest"
+#     - docker tag $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA $CI_REGISTRY_IMAGE:latest
+#     # Annnd we push it.
+#     - docker push $CI_REGISTRY_IMAGE:latest
 
 deploy:
   stage: deploy
@@ -63,7 +63,7 @@ deploy:
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY" 
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker pull $CI_REGISTRY_IMAGE:latest"
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker stop newcontainer || true && docker rm newcontainer || true" 
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker-compose up --name newcontainer registry.gitlab.com/feniln39/dockerfinal:latest"
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker-compose up -d --name newcontainer registry.gitlab.com/feniln39/dockerfinal:latest"
   
 # image: docker:20
 
