@@ -30,6 +30,19 @@ stages:
 #     - docker push $CI_REGISTRY_IMAGE
 #     - echo "Registry image:" $CI_REGISTRY_IMAGE
 
+docker-build:
+  stage: docker-build
+  image: docker:19.03.12
+  services:
+    - docker:dind
+  before_script:
+  - docker info
+  - docker-compose --version
+  tags:
+    - docker
+  script:
+    - docker-compose build
+
 
 
 
