@@ -57,6 +57,8 @@ deploy:
   image: kroniak/ssh-client
   before_script:
     - echo "deploying app"
+    - echo $CI_REGISTRY_IMAGE
+    - echo $CI_REGISTRY_USER
   script:
     - chmod 400 $LOGIN_FILE
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP 
