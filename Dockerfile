@@ -8,9 +8,8 @@ WORKDIR /app
 COPY . /app/
 
 # Prepare the container for building React
-RUN npm install
-RUN npm install react-scripts@3.0.1 -g
+RUN npm ci
 # We want the production version
 RUN npm run build
-EXPOSE "8080:8080"
+EXPOSE 8080:8080
 
