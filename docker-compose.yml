@@ -1,9 +1,8 @@
-version: '3.9'
+version: '3'
 
 services:
   web:
-    build:  
-      dockerfile: Dockerfile
+    build: .
     ports:
       - "8080:80"
     
