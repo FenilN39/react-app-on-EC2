@@ -32,7 +32,7 @@ stages:
 
 docker-build:
   stage: docker-build
-  image: docker:19.03.12
+  image: docker/compose:latest
   services:
     - docker:dind
   before_script:
