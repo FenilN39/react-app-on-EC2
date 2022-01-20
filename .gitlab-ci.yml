@@ -19,30 +19,30 @@ stages:
 
 #       - node_modules/
 
-# docker-build:
-#   stage: docker-build
-#   image: docker:19.03.12
-#   services:
-#     - docker:dind
-#   before_script:
-#     - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
-#   script:
-#     - docker build --pull -t $CI_REGISTRY_IMAGE .
-#     - docker push $CI_REGISTRY_IMAGE
-#     - echo "Registry image:" $CI_REGISTRY_IMAGE
-
 docker-build:
   stage: docker-build
-  image: docker/compose:latest
+  image: docker:19.03.12
   services:
     - docker:dind
   before_script:
-  - docker info
-  - docker-compose --version
-  tags:
-    - docker
+    - echo $CI_REGISTRY_PASSWORD |docker login -u $CI_REGISTRY_USER $CI_REGISTRY --password-stdin
   script:
-    - docker-compose build
+    - docker build --pull -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
+    - echo "Registry image:" $CI_REGISTRY_IMAGE
+
+# docker-build:
+#   stage: docker-build
+#   image: docker/compose:latest
+#   services:
+#     - docker:dind
+#   before_script:
+#   - docker info
+#   - docker-compose --version
+#   tags:
+#     - docker
+#   script:
+#     - docker-compose build
 
 
 
@@ -75,10 +75,10 @@ deploy:
     - echo $CI_REGISTRY_USER
   script:
     - chmod 400 $LOGIN_FILE
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY" 
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker pull $CI_REGISTRY_IMAGE:latest"
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker stop newcontainer || true && docker rm newcontainer || true" 
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE ubuntu@$SERVER_IP "sudo docker-compose create -d registry.gitlab.com/feniln39/dockerfinal:latest"
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY" 
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "sudo docker pull $CI_REGISTRY_IMAGE:latest"
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "sudo docker stop newcontainer || true && docker rm newcontainer || true" 
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "sudo docker-compose create -d registry.gitlab.com/feniln39/dockerfinal:latest"
   
 # image: docker:20
 
