@@ -75,9 +75,9 @@ deploy:
     - echo $CI_REGISTRY_USER
   script:
     - chmod 400 $LOGIN_FILE
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY" 
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker pull $CI_REGISTRY_IMAGE:latest ; sudo docker images "
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker stop newcontainer || true && docker rm newcontainer || true" 
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY ; docker pull $CI_REGISTRY_IMAGE:latest ; sudo docker images ;docker stop newcontainer || true && docker rm newcontainer || true" 
+    # - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker pull $CI_REGISTRY_IMAGE:latest ; sudo docker images "
+    # - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker stop newcontainer || true && docker rm newcontainer || true" 
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker run -d -p 3000:3000 --name newcontainer registry.gitlab.com/feniln39/dockerfinal:latest"
   
 # image: docker:20
