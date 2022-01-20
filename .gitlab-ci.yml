@@ -79,6 +79,7 @@ deploy:
     # - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker pull $CI_REGISTRY_IMAGE:latest ; sudo docker images "
     # - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker stop newcontainer || true && docker rm newcontainer || true" 
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker run -d -p 3000:3000 --name newcontainer $CI_REGISTRY_IMAGE:latest"
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker cp newcontainer:/app/build/. /var/www/html/"
   
 # image: docker:20
 
