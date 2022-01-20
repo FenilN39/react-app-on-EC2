@@ -1,12 +1,9 @@
 
 version: '3'
 
-
 services:
   web:
     build: .
-
-    dockerfile: Dockerfile
     ports:
       - "8080:80"
     

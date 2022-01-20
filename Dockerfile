@@ -5,11 +5,13 @@ FROM node:12.22.9-alpine3.14 as build
 WORKDIR /app
 
 # Copy the React App to the container
-COPY . /app/
+COPY . .
 
 # Prepare the container for building React
 RUN npm ci
 # We want the production version
-RUN npm run build
+
 EXPOSE 8080:8080
+
+CMD ["npm" , "start"]
 
