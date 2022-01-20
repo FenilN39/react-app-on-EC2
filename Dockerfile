@@ -22,5 +22,7 @@ COPY package-lock.json ./
 COPY ./ ./
 RUN npm install
 RUN npm run build
-RUN npm install -g server
-CMD ["npm", "run", "start"]
+RUN npm install -g serve
+RUN npm install -g pm2
+CMD ["pm2", "serve", "build","3000" "--spa"]
+EXPOSE 3000

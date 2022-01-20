@@ -78,7 +78,7 @@ deploy:
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "docker login -u $CI_REGISTRY_USER -p $CI_JOB_TOKEN $CI_REGISTRY" 
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "sudo docker pull $CI_REGISTRY_IMAGE:latest"
     - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "sudo docker stop newcontainer || true && docker rm newcontainer || true" 
-    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "sudo docker-compose create -d registry.gitlab.com/feniln39/dockerfinal:latest"
+    - ssh -o StrictHostKeyChecking=no -i $LOGIN_FILE root@$SERVER_IP "sudo docker create -d -p 127.0.0.1:3000:3000 --name newcontainer registry.gitlab.com/feniln39/dockerfinal:latest"
   
 # image: docker:20
 
