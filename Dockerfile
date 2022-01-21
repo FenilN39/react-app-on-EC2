@@ -20,10 +20,8 @@ WORKDIR /app
 COPY package.json ./
 COPY package-lock.json ./
 COPY ./ ./
-RUN npm install
+RUN npm ci
 RUN npm run build
-RUN npm install -g pm2
-RUN npm install -g serve
 
-CMD ["pm2" ,"serve", "build" ," 3000" , "--spa"]
+CMD ["npm", "start"]
 
